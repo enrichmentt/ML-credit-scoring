@@ -1,0 +1,12 @@
+﻿version: '3.8'
+
+services:
+  ml-api:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    image: credit-scoring-api:v1
+    container_name: credit-scoring-api
+    ports:
+      - "5000:5000"
+    restart: always

@@ -1,0 +1,16 @@
+﻿# Data
+data/raw/*.xls
+data/raw/*.xlsx
+data/raw/*.csv
+
+__pycache__/
+*.py[cod]
+*.joblib
+*.pkl
+.venv
+.env
+
+.idea/
+.vscode/
+
+.DS_Store
