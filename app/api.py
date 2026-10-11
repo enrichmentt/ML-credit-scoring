@@ -16,10 +16,10 @@ logger = logging.getLogger(__name__)
 app = Flask(__name__)
 
 
-MODEL_DIR = os.path.join(os.path.dirname(__name__), 'models')
+MODEL_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'models')
 try:
     predictor = ModelPredictor(MODEL_DIR)
-    logger.info(json.dumps({"msg": "Models loaded successfully via src.ml_utils"}))
+    logger.info(json.dumps({"msg": "Models loaded successfully"}))
 except Exception as e:
     logger.error(json.dumps({"msg": f"Error loading models: {str(e)}"}))
     predictor = None
@@ -33,6 +33,10 @@ def health():
 
 @app.route('/predict', methods=['POST'])
 def predict():
+    if predictor is None:
+        logger.error(json.dumps({"msg": "Prediction error: Models not loaded"}))
+        return jsonify({"error": "Models not loaded"}), 500
+
     if not request.is_json:
         logger.error(json.dumps({"msg": "Request is not JSON"}))
         return jsonify({"error": "Request must be JSON"}), 400
